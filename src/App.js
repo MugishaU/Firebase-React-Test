@@ -21,11 +21,15 @@ class App extends React.Component {
 
         <FirebaseAuthProvider {...config} firebase={firebase}>
           <div>
-            Hello <div>From FirebaseAuthProvider</div>
+            Hello
+            <div>From FirebaseAuthProvider</div>
             <IfFirebaseAuthed>
               {() => (
                 <div>
-                  <h2>You're signed in 🎉 </h2>
+                  <h2>
+                    You're signed in{" "}
+                    {firebase.auth().currentUser.displayName || "anonymously"}🎉
+                  </h2>
                   <button
                     onClick={() => {
                       firebase.app().auth().signOut();
