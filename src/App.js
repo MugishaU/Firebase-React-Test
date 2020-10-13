@@ -1,12 +1,11 @@
 import React from "react";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import {
   FirebaseAuthProvider,
   IfFirebaseAuthed,
   IfFirebaseUnAuthed,
 } from "@react-firebase/auth";
 import { config } from "../src/firebaseConfig";
-const concept = "world";
 import "firebase/auth";
 import "./styles/App.css";
 import Login from "./Components/Login";

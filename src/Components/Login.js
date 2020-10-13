@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import * as firebase from "firebase/app";
-// import "firebase/auth";
+import firebase from "firebase/app";
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
@@ -22,7 +21,8 @@ export default function Login(props) {
       }}
     >
       <input
-        type="text"
+        required
+        type="email"
         name="email"
         placeholder="E-mail"
         value={email}
@@ -31,6 +31,7 @@ export default function Login(props) {
         }}
       />
       <input
+        required
         type="password"
         name="password"
         placeholder="Password"
