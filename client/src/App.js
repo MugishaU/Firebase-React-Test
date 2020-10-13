@@ -25,10 +25,8 @@ class App extends React.Component {
             <IfFirebaseAuthed>
               {() => (
                 <div>
-                  <h2>
-                    You're signed in{" "}
-                    {firebase.auth().currentUser.displayName || "anonymously"}🎉
-                  </h2>
+                  <h2>You're signed in 🎉</h2>
+                  <h3>Email: {firebase.auth().currentUser.email}</h3>
                   <button
                     onClick={() => {
                       firebase.app().auth().signOut();
