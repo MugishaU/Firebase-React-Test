@@ -59,7 +59,7 @@ class App extends React.Component {
               {({ firebase }) => (
                 <div>
                   <h2>You're not signed in </h2>
-                  <Login />
+                  <Login firebase={firebase} />
                   {/* <button
                     onClick={() => {
                       firebase.app().auth().signInAnonymously();

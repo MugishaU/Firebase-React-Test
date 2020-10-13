@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import firebase from "firebase/app";
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
@@ -7,12 +6,12 @@ export default function Login(props) {
   return (
     <form
       onSubmit={(event) => {
-        firebase
+        props.firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
           .catch(function (error) {
             // Handle Errors here.
-            console.log(error.code);
+            // console.log(error.code);
             alert(error.message);
             // ...
           });
