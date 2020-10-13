@@ -2,7 +2,6 @@ import React from "react";
 import * as firebase from "firebase/app";
 import {
   FirebaseAuthProvider,
-  FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseUnAuthed,
 } from "@react-firebase/auth";
@@ -10,6 +9,7 @@ import { config } from "../src/firebaseConfig";
 const concept = "world";
 import "firebase/auth";
 import "./styles/App.css";
+import Login from "./Components/Login";
 
 class App extends React.Component {
   state = {};
@@ -60,7 +60,8 @@ class App extends React.Component {
               {({ firebase }) => (
                 <div>
                   <h2>You're not signed in </h2>
-                  <button
+                  <Login />
+                  {/* <button
                     onClick={() => {
                       firebase.app().auth().signInAnonymously();
                     }}
@@ -80,12 +81,11 @@ class App extends React.Component {
                     }}
                   >
                     Sign in with Google
-                  </button>
+                  </button> */}
                 </div>
               )}
             </IfFirebaseUnAuthed>
           </div>
-          <div>Another div</div>
         </FirebaseAuthProvider>
       </>
     );
