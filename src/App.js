@@ -2,7 +2,9 @@ import React from "react";
 import * as firebase from "firebase/app";
 import {
   FirebaseAuthProvider,
-  FirebaseAuthConsumer
+  FirebaseAuthConsumer,
+  IfFirebaseAuthed,
+  IfFirebaseUnAuthed,
 } from "@react-firebase/auth";
 import { config } from "../src/firebaseConfig";
 const concept = "world";
@@ -19,51 +21,71 @@ class App extends React.Component {
 
         <FirebaseAuthProvider {...config} firebase={firebase}>
           <div>
-            Hello <div>From Auth Provider Child 1</div>
-            <FirebaseAuthConsumer>
-               {({ isSignedIn, firebase }) => {
-              if (isSignedIn === true) {
-                return (
-                  <div>
-                    <h2>You're signed in 🎉 </h2>
-                    <button
-                      onClick={() => {
-                        firebase
-                          .app()
+            Hello <div>From FirebaseAuthProvider</div>
+            <IfFirebaseAuthed>
+              {() => (
+                <div>
+                  <h2>You're signed in 🎉 </h2>
+                  <button
+                    onClick={() => {
+                      firebase.app().auth().signOut();
+                    }}
+                  >
+                    Sign out
+                  </button>
+                  <button
+                    onClick={() => {
+                      // console.log(firebase.auth().currentUser);
+                      firebase
+                        .auth()
+                        .currentUser.getIdToken(/* forceRefresh */ true)
+                        .then(function (idToken) {
+                          console.log(`token: ${idToken}`);
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
+                    }}
+                  >
+                    Get Token
+                  </button>
+                </div>
+              )}
+            </IfFirebaseAuthed>
+            <IfFirebaseUnAuthed>
+              {({ firebase }) => (
+                <div>
+                  <h2>You're not signed in </h2>
+                  <button
+                    onClick={() => {
+                      firebase.app().auth().signInAnonymously();
+                    }}
+                  >
+                    Sign in anonymously
+                  </button>
+                  <button
+                    onClick={async () => {
+                      try {
+                        const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+                        await firebase
                           .auth()
-                          .signOut();
-                      }}
-                    >
-                      Sign out
-                    </button>
-                  </div>
-                );
-              } else {
-                return (
-                  <div>
-                    <h2>You're not signed in </h2>
-                    <button
-                      onClick={() => {
-                        firebase
-                          .app()
-                          .auth()
-                          .signInAnonymously();
-                      }}
-                    >
-                      Sign in anonymously
-                    </button>
-                  </div>
-                );
-              }
-            }}
-            </FirebaseAuthConsumer>
+                          .signInWithPopup(googleAuthProvider);
+                      } catch (error) {
+                        console.log(error);
+                      }
+                    }}
+                  >
+                    Sign in with Google
+                  </button>
+                </div>
+              )}
+            </IfFirebaseUnAuthed>
           </div>
           <div>Another div</div>
-       </FirebaseAuthProvider>
+        </FirebaseAuthProvider>
       </>
     );
   }
 }
-
 
 export default App;
